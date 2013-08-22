@@ -215,10 +215,6 @@ function arabic_transliteration_transform($content, $options){
   return $content;
 }
 
-function arabic_transliteration_convert_to_utf8($unicode , $encoding = 'UTF-8'){
-  return mb_convert_encoding("&#{$unicode};", $encoding, 'HTML-ENTITIES');
-}
-
 function arabic_transliteration_replace($pattern, $replace, $subject){
   return preg_replace("/$pattern/u", $replace, $subject);
 }
