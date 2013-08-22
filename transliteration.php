@@ -107,18 +107,18 @@ function arabic_transliteration_transform($content, $options){
   $content = arabic_transliteration_replace("([$standard_harakat$sukun$tanween])($shadda)", "\\2\\1", $content);
 
   // one-letter words should always have its haraka transliterated
-  $last_word_is_one_letter = preg_match("/(?:^| )[$sun_letters$moon_letters$extraneous_letters][$tashkil]*$end_of_string/u", $content);
-
+  $last_word_is_one_letter = preg_match("/(?:^| )[$sun_letters$moon_letters$extraneous_letters][$tashkil]*$/u", $content);
+  
 	if($options['stop-on-sukun'] && !$last_word_is_one_letter){
 		// tanween
-		$content = arabic_transliteration_replace("$fathatan$alef$end_of_string", "$fatha$alef", $content);
-		$content = arabic_transliteration_replace("$fathatan$end_of_string", "", $content);
-		$content = arabic_transliteration_replace("$dammatan$end_of_string", "", $content);
-		$content = arabic_transliteration_replace("$kasratan$end_of_string", "", $content);
+		$content = arabic_transliteration_replace("$fathatan$alef$", "$fatha$alef", $content);
+		$content = arabic_transliteration_replace("$fathatan$", "", $content);
+		$content = arabic_transliteration_replace("$dammatan$", "", $content);
+		$content = arabic_transliteration_replace("$kasratan$", "", $content);
 		// harakat
-		$content = arabic_transliteration_replace("$fatha$end_of_string", "", $content);
-		$content = arabic_transliteration_replace("$damma$end_of_string", "", $content);
-		$content = arabic_transliteration_replace("$kasra$end_of_string", "", $content);
+		$content = arabic_transliteration_replace("$fatha$", "", $content);
+		$content = arabic_transliteration_replace("$damma$", "", $content);
+		$content = arabic_transliteration_replace("$kasra$", "", $content);
 	}
 	
 
@@ -199,7 +199,7 @@ function arabic_transliteration_transform($content, $options){
 	$content = arabic_transliteration_replace("$alef_with_madda", "$alef", $content);
 
 	// ta marbuta at end of word sequence
-	$content = arabic_transliteration_replace("$ta_marbuta$end_of_string", "$ha", $content);
+	$content = arabic_transliteration_replace("$ta_marbuta$", "$ha", $content);
 	
 	// question mark
 	$content = arabic_transliteration_replace("؟", "?", $content);
