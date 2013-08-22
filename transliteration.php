@@ -28,83 +28,16 @@ function arabic_transliteration($content, $options = array()) {
 	return $content;
 }
 
-function arabic_transliteration_translate($content, $options){
-  global $arabic_transliteration_constants;
-  extract($arabic_transliteration_constants);
-
-  $translation = array(
-	  // alef with fathatan
-    "$fathatan$alef" => $fathatan,
-    "$alef$fathatan" => $fathatan,
-
-	  // tanween
-    $fathatan => 'an',
-    $kasratan => 'in',
-    $dammatan => 'un',
-
-    // consonants
-    $alef => 'ā',
-    $ba => 'b',
-    $ta => 't',
-    $tha => 'th',
-    $jim => 'j',
-    $hha => 'ḥ',
-    $kha => 'kh',
-    $dal => 'd',
-    $dhal => 'dh',
-    $ra => 'r',
-    $zay => 'z',
-    $sin => 's',
-    $shin => 'sh',
-    $sad => 'ṣ',
-    $dad => 'ḍ',
-    $tta => 'ṭ',
-    $zza => 'ẓ',
-    $ayn => 'ʿ',
-    $ghayn => 'gh',
-    $fa => 'f',
-    $qaf => 'q',
-    $kaf => 'k',
-    $lam => 'l',
-    $mim => 'm',
-    $nun => 'n',
-    $ha => 'h',
-	
-    $hamza => '-',
-    $ta_marbuta => 't',
-
-    // waw
-    "$damma$waw$fatha" => "{$damma}w$fatha",
-    "$damma$waw$alef" => "{$damma}w$alef",
-    "$damma$waw" => "ū",
-    $waw => 'w',
-
-    // ya
-    "$kasra$ya$fatha" => "{$kasra}y$fatha",
-    "$kasra$ya$alef" => "{$kasra}y$alef",
-    "$kasra$ya" => "ī",
-    $ya => 'y',
-
-    // vowels
-    $alef => 'ā',
-
-    // harakat
-    $fatha => 'a',
-    $kasra => 'i',
-    $damma => 'u',
-  );
-
-  $content = str_replace(array_keys($translation), array_values($translation), $content);
-
-  return $content;
-}
-
 function arabic_transliteration_transform($content, $options){
   global $arabic_transliteration_constants;
   extract($arabic_transliteration_constants);
 
   // move shadda next to letter
   $content = arabic_transliteration_replace("([$standard_harakat$sukun$tanween])($shadda)", "\\2\\1", $content);
+
+
+
+  /* STOP ON SUKUN */
 
   // one-letter words should always have its haraka transliterated
   $last_word_is_one_letter = preg_match("/(?:^| )[$sun_letters$moon_letters$extraneous_letters][$tashkil]*$/u", $content);
@@ -220,6 +153,77 @@ function arabic_transliteration_transform($content, $options){
   
   //shadda of two-letter transliterated letters
   $content = arabic_transliteration_replace("($tha|$kha|$dhal|$shin|$ghayn)$sukun\\1", "\\1$sukun-\\1", $content);
+
+  return $content;
+}
+
+function arabic_transliteration_translate($content, $options){
+  global $arabic_transliteration_constants;
+  extract($arabic_transliteration_constants);
+
+  $translation = array(
+	  // alef with fathatan
+    "$fathatan$alef" => $fathatan,
+    "$alef$fathatan" => $fathatan,
+
+	  // tanween
+    $fathatan => 'an',
+    $kasratan => 'in',
+    $dammatan => 'un',
+
+    // consonants
+    $alef => 'ā',
+    $ba => 'b',
+    $ta => 't',
+    $tha => 'th',
+    $jim => 'j',
+    $hha => 'ḥ',
+    $kha => 'kh',
+    $dal => 'd',
+    $dhal => 'dh',
+    $ra => 'r',
+    $zay => 'z',
+    $sin => 's',
+    $shin => 'sh',
+    $sad => 'ṣ',
+    $dad => 'ḍ',
+    $tta => 'ṭ',
+    $zza => 'ẓ',
+    $ayn => 'ʿ',
+    $ghayn => 'gh',
+    $fa => 'f',
+    $qaf => 'q',
+    $kaf => 'k',
+    $lam => 'l',
+    $mim => 'm',
+    $nun => 'n',
+    $ha => 'h',
+	
+    $hamza => '-',
+    $ta_marbuta => 't',
+
+    // waw
+    "$damma$waw$fatha" => "{$damma}w$fatha",
+    "$damma$waw$alef" => "{$damma}w$alef",
+    "$damma$waw" => "ū",
+    $waw => 'w',
+
+    // ya
+    "$kasra$ya$fatha" => "{$kasra}y$fatha",
+    "$kasra$ya$alef" => "{$kasra}y$alef",
+    "$kasra$ya" => "ī",
+    $ya => 'y',
+
+    // vowels
+    $alef => 'ā',
+
+    // harakat
+    $fatha => 'a',
+    $kasra => 'i',
+    $damma => 'u',
+  );
+
+  $content = str_replace(array_keys($translation), array_values($translation), $content);
 
   return $content;
 }
