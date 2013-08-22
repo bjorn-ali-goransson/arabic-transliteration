@@ -93,6 +93,10 @@ $arabic_transliteration_constants['moon_letters'] =
   $arabic_transliteration_constants['ha'] .
   $arabic_transliteration_constants['waw'] .
   $arabic_transliteration_constants['ya'];
+
+$arabic_transliteration_constants['standard_letters'] = 
+  $arabic_transliteration_constants['sun_letters'] .
+  $arabic_transliteration_constants['moon_letters'];
   
 $arabic_transliteration_constants['extraneous_letters'] = 
   $arabic_transliteration_constants['alef_with_wasla'] .

@@ -84,6 +84,9 @@ function arabic_transliteration_transform($content, $options){
 	$content = arabic_transliteration_replace("$alef_with_wasla$lam$lam$shadda", "$alef_with_wasla$lam$lam", $content);
 	// moon letters
 	$content = arabic_transliteration_replace("([$alef_with_wasla$tashkil])$lam([^$tashkil$alef_maqsura])", "\$1$lam-\$2", $content);
+
+  // unmarked alef with wasla indicated by sukun on next letter
+  $content = arabic_transliteration_replace("$alef([$standard_letters])$sukun", "$alef_with_wasla\\1$sukun", $content);
 	
 	// ana
 	$content = arabic_transliteration_replace("$alef_with_sup_hamza$fatha?$nun$fatha?$alef$", "أَنَ$sukun", $content);
