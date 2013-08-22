@@ -172,7 +172,6 @@ function arabic_transliteration_translate($content, $options){
     $dammatan => 'un',
 
     // consonants
-    $alef => 'ā',
     $ba => 'b',
     $ta => 't',
     $tha => 'th',
@@ -215,6 +214,7 @@ function arabic_transliteration_translate($content, $options){
     $ya => 'y',
 
     // vowels
+    "$fatha$alef" => 'ā',
     $alef => 'ā',
 
     // harakat
