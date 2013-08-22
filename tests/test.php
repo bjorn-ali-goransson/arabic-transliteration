@@ -101,10 +101,10 @@ class TestOfLogging extends UnitTestCase {
       'أَنْعَمْتَ' => 'an`amt',
       'عَلَيْهِمْ' => '`alayhim',
       'غَيْرِ' => 'ghayr',
-      'الْمَغْضُوبِ' => 'al-maghḑub',
+      'الْمَغْضُوبِ' => 'al-maghḍūb',
       'عَلَيْهِمْ' => '`alayhim',
       'وَلا' => 'walā',
-      'الضَّالِّينَ' => 'aḑ-ḑāllīn',
+      'الضَّالِّينَ' => 'aḍ-ḍāllīn',
     );
     foreach($test as $arabic => $transliterated){
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
