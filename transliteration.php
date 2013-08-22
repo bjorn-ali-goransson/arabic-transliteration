@@ -203,12 +203,16 @@ function arabic_transliteration_translate($content, $options){
 
     // waw
     "$damma$waw$fatha" => "{$damma}w$fatha",
+    "$damma$waw$sukun$waw$fatha" => "{$damma}ww$fatha",
     "$damma$waw$alef" => "{$damma}w$alef",
+    "$damma$waw$sukun$waw$alef" => "{$damma}ww$alef",
     "$damma$waw" => "ū",
     $waw => 'w',
 
     // ya
+    "$kasra$ya$sukun$ya$fatha" => "{$kasra}yy$fatha",
     "$kasra$ya$fatha" => "{$kasra}y$fatha",
+    "$kasra$ya$sukun$ya$alef" => "{$kasra}yy$alef",
     "$kasra$ya$alef" => "{$kasra}y$alef",
     "$kasra$ya" => "ī",
     $ya => 'y',
