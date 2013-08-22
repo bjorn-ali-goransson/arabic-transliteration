@@ -12,12 +12,17 @@ function arabic_transliteration($content, $options = array()) {
       $options[$key] = $default_value;
     }
   }
+  
+  // tags
+	$content = strip_tags($content);
+
+  // remove extraneoous whitespace
+	$content = arabic_transliteration_replace("\s+", " ", $content);
 
   $content = arabic_transliteration_transform($content, $options);
   $content = arabic_transliteration_translate($content, $options);
 	
-	/* Cleanup */
-	
+	// cleanup
 	$content = preg_replace("/[\x{0590}-\x{06FF}]/u", "", $content);
 	
 	return $content;
@@ -97,16 +102,11 @@ function arabic_transliteration_translate($content, $options){
 function arabic_transliteration_transform($content, $options){
   global $arabic_transliteration_constants;
   extract($arabic_transliteration_constants);
-  
-  // whitespace
-	$content = strip_tags($content);
-
-  // remove extraneoous whitespace
-	$content = arabic_transliteration_replace("\s+", " ", $content);
 
   // move shadda next to letter
   $content = arabic_transliteration_replace("([$standard_harakat$sukun$tanween])($shadda)", "\\2\\1", $content);
 
+  // one-letter words should always have its haraka transliterated
   $last_word_is_one_letter = preg_match("/(?:^| )[$sun_letters$moon_letters$extraneous_letters][$tashkil]*$end_of_string/u", $content);
 
 	if($options['stop-on-sukun'] && !$last_word_is_one_letter){
@@ -121,8 +121,11 @@ function arabic_transliteration_transform($content, $options){
 		$content = arabic_transliteration_replace("$kasra$end_of_string", "", $content);
 	}
 	
-	/* Special cases */
-	// prevent lam becoming "-" if succeeded by tanween
+
+
+	/* SPECIAL CASES */
+	
+  // prevent lam becoming "-" if succeeded by tanween
 	$content = arabic_transliteration_replace("لاً", "لْاً", $content);
 	// allah (common spelling: defective tashkil)
 	$content = arabic_transliteration_replace("الله", "ٱلْلَاه", $content);
@@ -155,7 +158,10 @@ function arabic_transliteration_transform($content, $options){
 	// anti
 	$content = arabic_transliteration_replace("أَنْتِ$", "أَنْتِ$sukun", $content);
 	
-	/* Special letters */
+
+
+	/* SPECIAL LETTERS */
+
 	// tatwil
 	$content = arabic_transliteration_replace("ـ", "", $content);
 	// dagger alif
@@ -198,7 +204,10 @@ function arabic_transliteration_transform($content, $options){
 	// question mark
 	$content = arabic_transliteration_replace("؟", "?", $content);
 	
-	/* Special cases */
+
+
+	/* SPECIAL CASES */
+
 	// i - mi'ah
 	$content = arabic_transliteration_replace("$kasra$alef", "$kasra", $content);
 	
