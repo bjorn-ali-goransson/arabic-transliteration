@@ -1,8 +1,6 @@
 <?php
   
 $arabic_transliteration_constants = array(
-  'end_of_string' => '$',
-
   // letters
   'alef' => 0x0627,
   'ba' => 0x0628,
