@@ -1,6 +1,6 @@
 <?php
 
-function transliterate_to_arabic($content, $options = array()) {
+function arabic_transliteration($content, $options = array()) {
   $default_options = array(
     'stop-on-sukun' => 1,
   );
@@ -10,9 +10,6 @@ function transliterate_to_arabic($content, $options = array()) {
       $options[$key] = $default_value;
     }
   }
-  
-	$content = preg_replace("/<[^>]+>/u", "", $content);
-	$content = preg_replace("/\s+/u", " ", $content);
 
   $end_of_string = "$";
   
@@ -58,7 +55,7 @@ function transliterate_to_arabic($content, $options = array()) {
   $ya_with_hamza = "\x{0626}";
   $hamza = "\x{0621}";
 
-  $dagger_alef = "\x{0670}";
+  $extraneous_letters = "$alef_with_wasla$alef_with_sup_hamza$alef_with_sub_hamza$alef_maqsura$alef_with_madda$ta_marbuta$waw_with_hamza$ya_with_hamza$hamza";
 
   $fatha = "\x{064E}";
   $damma = "\x{064F}";
@@ -74,10 +71,24 @@ function transliterate_to_arabic($content, $options = array()) {
   $shadda = "\x{0651}";
   $tashkil = "$standard_harakat$sukun$tanween$shadda";
 
+  $dagger_alef = "\x{0670}";
+
+
+
+  /* TRANSFORMATION PHASE */
+  
+  // whitespace
+	$content = strip_tags($content);
+
+  // remove extraneoous whitespace
+	$content = preg_replace("/\s+/u", " ", $content);
+
   // move shadda next to letter
   $content = preg_replace("/([$standard_harakat$sukun$tanween])($shadda)/u", "\\2\\1", $content);
-  
-	if($options['stop-on-sukun']){
+
+  $last_word_is_one_letter = preg_match("/(?:^| )[$sun_letters$moon_letters$extraneous_letters][$tashkil]*$end_of_string/u", $content);
+
+	if($options['stop-on-sukun'] && !$last_word_is_one_letter){
 		// tanween
 		$content = preg_replace("/$fathatan$alef$end_of_string/u", "$fatha$alef", $content);
 		$content = preg_replace("/$fathatan$end_of_string/u", "", $content);
@@ -86,7 +97,6 @@ function transliterate_to_arabic($content, $options = array()) {
 		// harakat
 		$content = preg_replace("/$fatha$end_of_string/u", "", $content);
 		$content = preg_replace("/$damma$end_of_string/u", "", $content);
-		//$content = preg_replace("/لِ$/u", "لْ", $content); // one-char words should never stop on sukun...
 		$content = preg_replace("/$kasra$end_of_string/u", "", $content);
 	}
 	
@@ -106,9 +116,9 @@ function transliterate_to_arabic($content, $options = array()) {
 	$content = preg_replace("/([^$fatha])$ta_marbuta/u", "\$1$fatha$ta_marbuta", $content);
 	
 	// unmarked alif-lam with sun letter
-	$content = preg_replace("/ $alef$lam([$sun_letters])/u", " $alef_with_wasla$lam\$1", $content);
+	$content = preg_replace("/(^| )$alef$lam([$sun_letters])/u", "\\1$alef_with_wasla$lam\\2", $content);
 	// unmarked alif-lam with moon letter
-	$content = preg_replace("/ $alef$lam([$moon_letters])/u", " $alef_with_wasla$lam\$1", $content);
+	$content = preg_replace("/(^| )$alef$lam([$moon_letters])/u", "\\1$alef_with_wasla$lam\\2", $content);
 	
 	// sun letters
 	$content = preg_replace("/$alef_with_wasla$lam([^$lam])$shadda/u", "$alef_with_wasla\$1-\$1", $content);
@@ -131,16 +141,17 @@ function transliterate_to_arabic($content, $options = array()) {
 	$content = preg_replace("/$dagger_alef/u", "$alef", $content);
 	// alif maqsura
 	$content = preg_replace("/$alef_maqsura/u", "$alef", $content);
+
 	// hamza in beginning of words (with harakah)
 	$content = preg_replace("/^[$alef_with_sup_hamza$alef_with_sub_hamza$hamza]([$standard_harakat])/u", "\$1", $content);
 	$content = preg_replace("/ [$alef_with_sup_hamza$alef_with_sub_hamza$hamza]([$standard_harakat])/u", " \$1", $content);
 	// hamza in beginning of words (without harakah)
-	$content = preg_replace("/^[$alef_with_sup_hamza]/u", "a", $content);
-	$content = preg_replace("/^[$alef_with_sub_hamza]/u", "i", $content);
-	$content = preg_replace("/^[$hamza]/u", "'", $content);
-	$content = preg_replace("/ [$alef_with_sup_hamza]/u", " a", $content);
-	$content = preg_replace("/ [$alef_with_sub_hamza]/u", " i", $content);
-	$content = preg_replace("/ [$hamza]/u", " '", $content);
+	$content = preg_replace("/^$alef_with_sup_hamza/u", "a", $content);
+	$content = preg_replace("/ $alef_with_sup_hamza/u", " a", $content);
+	$content = preg_replace("/^$alef_with_sub_hamza/u", "i", $content);
+	$content = preg_replace("/ $alef_with_sub_hamza/u", " i", $content);
+	$content = preg_replace("/^$hamza/u", "'", $content);
+	$content = preg_replace("/ $hamza/u", " '", $content);
 	// hamza inside words
 	$content = preg_replace("/([^-])[$alef_with_sup_hamza$alef_with_sub_hamza$hamza$waw_with_hamza$ya_with_hamza]/u", "\$1-", $content);
 	$content = preg_replace("/[$alef_with_sup_hamza$alef_with_sub_hamza$hamza$waw_with_hamza$ya_with_hamza]/u", "", $content);
@@ -149,11 +160,11 @@ function transliterate_to_arabic($content, $options = array()) {
 	$content = preg_replace("/([$standard_harakat] )$alef_with_wasla/u", "\$1", $content);
 	
 	// alif with wasla preceded with long a
-	$content = preg_replace("/$fatha$alef $alef_with_wasla/u", "a ", $content);
+	$content = preg_replace("/$fatha$alef $alef_with_wasla/u", "$fatha ", $content);
 	// alif with wasla preceded with long u
-	$content = preg_replace("/$damma$waw $alef_with_wasla/u", "u ", $content);
+	$content = preg_replace("/$damma$waw $alef_with_wasla/u", "$damma ", $content);
 	// alif with wasla preceded with long i
-	$content = preg_replace("/$kasra$ya $alef_with_wasla/u", "i ", $content);
+	$content = preg_replace("/$kasra$ya $alef_with_wasla/u", "$kasra ", $content);
 	
 	// alif with wasla
 	$content = preg_replace("/$alef_with_wasla/u", "a", $content);
@@ -173,6 +184,9 @@ function transliterate_to_arabic($content, $options = array()) {
 	$content = preg_replace("/$kasra$ya$shadda/u", "$kasra$ya$sukun$ya", $content);
 	// regular
 	$content = preg_replace("/(.)$shadda/u", "\$1$sukun\$1", $content);
+  
+  //shadda of two-letter transliterated letters
+  $content = preg_replace("/($tha|$kha|$dhal|$shin|$ghayn)$sukun\\1/u", "\\1$sukun-\\1", $content);
 	
 	/* Harakat */
 	// alef with fathatan
@@ -190,9 +204,6 @@ function transliterate_to_arabic($content, $options = array()) {
 	// long/short a
 	$content = preg_replace("/$fatha$alef/u", "ā", $content);
 	$content = preg_replace("/$fatha/u", "a", $content);
-  
-  //shadda of two-letter transliterated letters
-  $content = preg_replace("/($tha|$kha|$dhal|$shin|$ghayn)$sukun//1/u", "\\1$sukun-\\1", $content);
 	
 	/* Letters */
 	$content = preg_replace("/$alef/u", "ā", $content);
@@ -234,4 +245,8 @@ function transliterate_to_arabic($content, $options = array()) {
 	$content = preg_replace("/[\x{0590}-\x{06ff}]/u", "", $content);
 	
 	return $content;
+}
+
+function arabic_transliteration_convert_to_utf8($unicode , $encoding = 'UTF-8'){
+  return mb_convert_encoding("&#{$unicode};", $encoding, 'HTML-ENTITIES');
 }
