@@ -81,172 +81,195 @@ function arabic_transliteration($content, $options = array()) {
 	$content = strip_tags($content);
 
   // remove extraneoous whitespace
-	$content = preg_replace("/\s+/u", " ", $content);
+	$content = arabic_transliteration_replace("\s+", " ", $content);
 
   // move shadda next to letter
-  $content = preg_replace("/([$standard_harakat$sukun$tanween])($shadda)/u", "\\2\\1", $content);
+  $content = arabic_transliteration_replace("([$standard_harakat$sukun$tanween])($shadda)", "\\2\\1", $content);
 
   $last_word_is_one_letter = preg_match("/(?:^| )[$sun_letters$moon_letters$extraneous_letters][$tashkil]*$end_of_string/u", $content);
 
 	if($options['stop-on-sukun'] && !$last_word_is_one_letter){
 		// tanween
-		$content = preg_replace("/$fathatan$alef$end_of_string/u", "$fatha$alef", $content);
-		$content = preg_replace("/$fathatan$end_of_string/u", "", $content);
-		$content = preg_replace("/$dammatan$end_of_string/u", "", $content);
-		$content = preg_replace("/$kasratan$end_of_string/u", "", $content);
+		$content = arabic_transliteration_replace("$fathatan$alef$end_of_string", "$fatha$alef", $content);
+		$content = arabic_transliteration_replace("$fathatan$end_of_string", "", $content);
+		$content = arabic_transliteration_replace("$dammatan$end_of_string", "", $content);
+		$content = arabic_transliteration_replace("$kasratan$end_of_string", "", $content);
 		// harakat
-		$content = preg_replace("/$fatha$end_of_string/u", "", $content);
-		$content = preg_replace("/$damma$end_of_string/u", "", $content);
-		$content = preg_replace("/$kasra$end_of_string/u", "", $content);
+		$content = arabic_transliteration_replace("$fatha$end_of_string", "", $content);
+		$content = arabic_transliteration_replace("$damma$end_of_string", "", $content);
+		$content = arabic_transliteration_replace("$kasra$end_of_string", "", $content);
 	}
 	
 	/* Special cases */
 	// prevent lam becoming "-" if succeeded by tanween
-	$content = preg_replace("/لاً/u", "لْاً", $content);
+	$content = arabic_transliteration_replace("لاً", "لْاً", $content);
 	// allah (common spelling: defective tashkil)
-	$content = preg_replace("/الله/u", "ٱلْلَاه", $content);
-	$content = preg_replace("/اللَّه/u", "ٱلْلَاه", $content);
+	$content = arabic_transliteration_replace("الله", "ٱلْلَاه", $content);
+	$content = arabic_transliteration_replace("اللَّه", "ٱلْلَاه", $content);
 	// allah (remove -)
-	$content = preg_replace("/$alef_with_wasla$lam$lam$shadda$fatha$dagger_alef/u", "$alef_with_wasla$lam$sukun$lam$fatha$dagger_alef", $content);
+	$content = arabic_transliteration_replace("$alef_with_wasla$lam$lam$shadda$fatha$dagger_alef", "$alef_with_wasla$lam$sukun$lam$fatha$dagger_alef", $content);
 	
 	// alladhee, alladheena, etc
-	$content = preg_replace("/$alef_with_wasla$lam$lam$shadda$fatha/u", "$alef_with_wasla$lam$lam$fatha", $content);
+	$content = arabic_transliteration_replace("$alef_with_wasla$lam$lam$shadda$fatha", "$alef_with_wasla$lam$lam$fatha", $content);
 	
 	// ta marbutah without preceding fathah
-	$content = preg_replace("/([^$fatha])$ta_marbuta/u", "\$1$fatha$ta_marbuta", $content);
+	$content = arabic_transliteration_replace("([^$fatha])$ta_marbuta", "\$1$fatha$ta_marbuta", $content);
 	
 	// unmarked alif-lam with sun letter
-	$content = preg_replace("/(^| )$alef$lam([$sun_letters])/u", "\\1$alef_with_wasla$lam\\2", $content);
+	$content = arabic_transliteration_replace("(^| )$alef$lam([$sun_letters])", "\\1$alef_with_wasla$lam\\2", $content);
 	// unmarked alif-lam with moon letter
-	$content = preg_replace("/(^| )$alef$lam([$moon_letters])/u", "\\1$alef_with_wasla$lam\\2", $content);
+	$content = arabic_transliteration_replace("(^| )$alef$lam([$moon_letters])", "\\1$alef_with_wasla$lam\\2", $content);
 	
 	// sun letters
-	$content = preg_replace("/$alef_with_wasla$lam([^$lam])$shadda/u", "$alef_with_wasla\$1-\$1", $content);
-	$content = preg_replace("/$alef$lam([^$lam])$shadda/u", "$alef_with_wasla\$1-\$1", $content);
-	$content = preg_replace("/$lam([^$lam])$shadda/u", "$alef_with_wasla\$1-\$1", $content);
-	$content = preg_replace("/$alef_with_wasla$lam$lam$shadda/u", "$alef_with_wasla$lam$lam", $content);
+	$content = arabic_transliteration_replace("$alef_with_wasla$lam([^$lam])$shadda", "$alef_with_wasla\$1-\$1", $content);
+	$content = arabic_transliteration_replace("$alef$lam([^$lam])$shadda", "$alef_with_wasla\$1-\$1", $content);
+	$content = arabic_transliteration_replace("$lam([^$lam])$shadda", "$alef_with_wasla\$1-\$1", $content);
+	$content = arabic_transliteration_replace("$alef_with_wasla$lam$lam$shadda", "$alef_with_wasla$lam$lam", $content);
 	// moon letters
-	$content = preg_replace("/([$alef_with_wasla$tashkil])$lam([^$tashkil$alef_maqsura])/u", "\$1$lam-\$2", $content);
+	$content = arabic_transliteration_replace("([$alef_with_wasla$tashkil])$lam([^$tashkil$alef_maqsura])", "\$1$lam-\$2", $content);
 	
 	// ana
-	$content = preg_replace("/$alef_with_sup_hamza$fatha?$nun$fatha?$alef$/u", "أَنَ$sukun", $content);
-	$content = preg_replace("/$alef_with_sup_hamza$fatha?$nun$fatha?$alef /u", "أَنَ$sukun ", $content);
+	$content = arabic_transliteration_replace("$alef_with_sup_hamza$fatha?$nun$fatha?$alef$", "أَنَ$sukun", $content);
+	$content = arabic_transliteration_replace("$alef_with_sup_hamza$fatha?$nun$fatha?$alef ", "أَنَ$sukun ", $content);
 	// anti
-	$content = preg_replace("/أَنْتِ$/u", "أَنْتِ$sukun", $content);
+	$content = arabic_transliteration_replace("أَنْتِ$", "أَنْتِ$sukun", $content);
 	
 	/* Special letters */
 	// tatwil
-	$content = preg_replace("/ـ/u", "", $content);
+	$content = arabic_transliteration_replace("ـ", "", $content);
 	// dagger alif
-	$content = preg_replace("/$dagger_alef/u", "$alef", $content);
+	$content = arabic_transliteration_replace("$dagger_alef", "$alef", $content);
 	// alif maqsura
-	$content = preg_replace("/$alef_maqsura/u", "$alef", $content);
+	$content = arabic_transliteration_replace("$alef_maqsura", "$alef", $content);
 
 	// hamza in beginning of words (with harakah)
-	$content = preg_replace("/^[$alef_with_sup_hamza$alef_with_sub_hamza$hamza]([$standard_harakat])/u", "\$1", $content);
-	$content = preg_replace("/ [$alef_with_sup_hamza$alef_with_sub_hamza$hamza]([$standard_harakat])/u", " \$1", $content);
+	$content = arabic_transliteration_replace("^[$alef_with_sup_hamza$alef_with_sub_hamza$hamza]([$standard_harakat])", "\$1", $content);
+	$content = arabic_transliteration_replace(" [$alef_with_sup_hamza$alef_with_sub_hamza$hamza]([$standard_harakat])", " \$1", $content);
 	// hamza in beginning of words (without harakah)
-	$content = preg_replace("/^$alef_with_sup_hamza/u", "a", $content);
-	$content = preg_replace("/ $alef_with_sup_hamza/u", " a", $content);
-	$content = preg_replace("/^$alef_with_sub_hamza/u", "i", $content);
-	$content = preg_replace("/ $alef_with_sub_hamza/u", " i", $content);
-	$content = preg_replace("/^$hamza/u", "'", $content);
-	$content = preg_replace("/ $hamza/u", " '", $content);
+	$content = arabic_transliteration_replace("^$alef_with_sup_hamza", "a", $content);
+	$content = arabic_transliteration_replace(" $alef_with_sup_hamza", " a", $content);
+	$content = arabic_transliteration_replace("^$alef_with_sub_hamza", "i", $content);
+	$content = arabic_transliteration_replace(" $alef_with_sub_hamza", " i", $content);
+	$content = arabic_transliteration_replace("^$hamza", "'", $content);
+	$content = arabic_transliteration_replace(" $hamza", " '", $content);
 	// hamza inside words
-	$content = preg_replace("/([^-])[$alef_with_sup_hamza$alef_with_sub_hamza$hamza$waw_with_hamza$ya_with_hamza]/u", "\$1-", $content);
-	$content = preg_replace("/[$alef_with_sup_hamza$alef_with_sub_hamza$hamza$waw_with_hamza$ya_with_hamza]/u", "", $content);
+	$content = arabic_transliteration_replace("([^-])[$alef_with_sup_hamza$alef_with_sub_hamza$hamza$waw_with_hamza$ya_with_hamza]", "\$1-", $content);
+	$content = arabic_transliteration_replace("[$alef_with_sup_hamza$alef_with_sub_hamza$hamza$waw_with_hamza$ya_with_hamza]", "", $content);
 	
 	// alif with wasla preceded with haraka
-	$content = preg_replace("/([$standard_harakat] )$alef_with_wasla/u", "\$1", $content);
+	$content = arabic_transliteration_replace("([$standard_harakat] )$alef_with_wasla", "\$1", $content);
 	
 	// alif with wasla preceded with long a
-	$content = preg_replace("/$fatha$alef $alef_with_wasla/u", "$fatha ", $content);
+	$content = arabic_transliteration_replace("$fatha$alef $alef_with_wasla", "$fatha ", $content);
 	// alif with wasla preceded with long u
-	$content = preg_replace("/$damma$waw $alef_with_wasla/u", "$damma ", $content);
+	$content = arabic_transliteration_replace("$damma$waw $alef_with_wasla", "$damma ", $content);
 	// alif with wasla preceded with long i
-	$content = preg_replace("/$kasra$ya $alef_with_wasla/u", "$kasra ", $content);
+	$content = arabic_transliteration_replace("$kasra$ya $alef_with_wasla", "$kasra ", $content);
 	
 	// alif with wasla
-	$content = preg_replace("/$alef_with_wasla/u", "a", $content);
+	$content = arabic_transliteration_replace("$alef_with_wasla", "a", $content);
 	// alif with madda
-	$content = preg_replace("/$alef_with_madda/u", "$alef", $content);
+	$content = arabic_transliteration_replace("$alef_with_madda", "$alef", $content);
+
+	// ta marbuta at end of word sequence
+	$content = arabic_transliteration_replace("$ta_marbuta$end_of_string", "$ha", $content);
 	
 	// question mark
-	$content = preg_replace("/؟/u", "?", $content);
+	$content = arabic_transliteration_replace("؟", "?", $content);
 	
 	/* Special cases */
 	// i - mi'ah
-	$content = preg_replace("/$kasra$alef/u", "$kasra", $content);
+	$content = arabic_transliteration_replace("$kasra$alef", "$kasra", $content);
 	
 	/* Shadda */
 	// vowels
-	$content = preg_replace("/$damma$waw$shadda/u", "$damma$waw$sukun$waw", $content);
-	$content = preg_replace("/$kasra$ya$shadda/u", "$kasra$ya$sukun$ya", $content);
+	$content = arabic_transliteration_replace("$damma$waw$shadda", "$damma$waw$sukun$waw", $content);
+	$content = arabic_transliteration_replace("$kasra$ya$shadda", "$kasra$ya$sukun$ya", $content);
 	// regular
-	$content = preg_replace("/(.)$shadda/u", "\$1$sukun\$1", $content);
+	$content = arabic_transliteration_replace("(.)$shadda", "\$1$sukun\$1", $content);
   
   //shadda of two-letter transliterated letters
-  $content = preg_replace("/($tha|$kha|$dhal|$shin|$ghayn)$sukun\\1/u", "\\1$sukun-\\1", $content);
+  $content = arabic_transliteration_replace("($tha|$kha|$dhal|$shin|$ghayn)$sukun\\1", "\\1$sukun-\\1", $content);
+
+
+
+  /* TRANSLATION PHASE */
+
+  // Harakat
+
+  $translation = array(
+	  // alef with fathatan
+    "$fathatan$alef" => $fathatan,
+    "$alef$fathatan" => $fathatan,
+
+	  // tanween
+    $fathatan => 'an',
+    $kasratan => 'in',
+    $dammatan => 'un',
+  );
+
+  $content = str_replace(array_keys($translation), array_values($translation), $content);
 	
-	/* Harakat */
-	// alef with fathatan
-	$content = preg_replace("/(?:$fathatan$alef|$alef$fathatan)/u", "$fathatan", $content);
-	// tanween
-	$content = preg_replace("/$fathatan/u", "an", $content);
-	$content = preg_replace("/$dammatan/u", "un", $content);
-	$content = preg_replace("/$kasratan/u", "in", $content);
 	// long/short u
-	$content = preg_replace("/$damma$waw([^$fatha$alef])/u", "ū\$1", $content);
-	$content = preg_replace("/$damma/u", "u", $content);
+	$content = arabic_transliteration_replace("$damma$waw([^$fatha$alef])", "ū\$1", $content);
+	$content = arabic_transliteration_replace("$damma", "u", $content);
 	// long/short i
-	$content = preg_replace("/$kasra$ya([^$fatha$alef])/u", "ī\$1", $content);
-	$content = preg_replace("/$kasra/u", "i", $content);
+	$content = arabic_transliteration_replace("$kasra$ya([^$fatha$alef])", "ī\$1", $content);
+	$content = arabic_transliteration_replace("$kasra", "i", $content);
 	// long/short a
-	$content = preg_replace("/$fatha$alef/u", "ā", $content);
-	$content = preg_replace("/$fatha/u", "a", $content);
+	$content = arabic_transliteration_replace("$fatha$alef", "ā", $content);
+	$content = arabic_transliteration_replace("$fatha", "a", $content);
 	
 	/* Letters */
-	$content = preg_replace("/$alef/u", "ā", $content);
-	$content = preg_replace("/$ba/u", "b", $content);
-	$content = preg_replace("/$ta/u", "t", $content);
-	$content = preg_replace("/$tha/u", "th", $content);
-	$content = preg_replace("/$jim/u", "j", $content);
-	$content = preg_replace("/$hha/u", "ḥ", $content);
-	$content = preg_replace("/$kha/u", "kh", $content);
-	$content = preg_replace("/$dal/u", "d", $content);
-	$content = preg_replace("/$dhal/u", "dh", $content);
-	$content = preg_replace("/$ra/u", "r", $content);
-	$content = preg_replace("/$zay/u", "z", $content);
-	$content = preg_replace("/$sin/u", "s", $content);
-	$content = preg_replace("/$shin/u", "sh", $content);
-	$content = preg_replace("/$sad/u", "ṣ", $content);
-	$content = preg_replace("/$dad/u", "ḍ", $content);
-	$content = preg_replace("/$tta/u", "ṭ", $content);
-	$content = preg_replace("/$zza/u", "ẓ", $content);
-	$content = preg_replace("/$ayn/u", "ʿ", $content);
-	$content = preg_replace("/$ghayn/u", "gh", $content);
-	$content = preg_replace("/$fa/u", "f", $content);
-	$content = preg_replace("/$qaf/u", "q", $content);
-	$content = preg_replace("/$kaf/u", "k", $content);
-	$content = preg_replace("/$lam/u", "l", $content);
-	$content = preg_replace("/$mim/u", "m", $content);
-	$content = preg_replace("/$nun/u", "n", $content);
-	$content = preg_replace("/$ha/u", "h", $content);
-	$content = preg_replace("/$waw/u", "w", $content);
-	$content = preg_replace("/$ya/u", "y", $content);
+	$content = arabic_transliteration_replace($alef, "ā", $content);
+	$content = arabic_transliteration_replace($ba, "b", $content);
+	$content = arabic_transliteration_replace($ta, "t", $content);
+	$content = arabic_transliteration_replace($tha, "th", $content);
+	$content = arabic_transliteration_replace($jim, "j", $content);
+	$content = arabic_transliteration_replace($hha, "ḥ", $content);
+	$content = arabic_transliteration_replace($kha, "kh", $content);
+	$content = arabic_transliteration_replace($dal, "d", $content);
+	$content = arabic_transliteration_replace($dhal, "dh", $content);
+	$content = arabic_transliteration_replace($ra, "r", $content);
+	$content = arabic_transliteration_replace($zay, "z", $content);
+	$content = arabic_transliteration_replace($sin, "s", $content);
+	$content = arabic_transliteration_replace($shin, "sh", $content);
+	$content = arabic_transliteration_replace($sad, "ṣ", $content);
+	$content = arabic_transliteration_replace($dad, "ḍ", $content);
+	$content = arabic_transliteration_replace($tta, "ṭ", $content);
+	$content = arabic_transliteration_replace($zza, "ẓ", $content);
+	$content = arabic_transliteration_replace($ayn, "ʿ", $content);
+	$content = arabic_transliteration_replace($ghayn, "gh", $content);
+	$content = arabic_transliteration_replace($fa, "f", $content);
+	$content = arabic_transliteration_replace($qaf, "q", $content);
+	$content = arabic_transliteration_replace($kaf, "k", $content);
+	$content = arabic_transliteration_replace($lam, "l", $content);
+	$content = arabic_transliteration_replace($mim, "m", $content);
+	$content = arabic_transliteration_replace($nun, "n", $content);
+	$content = arabic_transliteration_replace($ha, "h", $content);
+	$content = arabic_transliteration_replace($waw, "w", $content);
+	$content = arabic_transliteration_replace($ya, "y", $content);
 	
-	$content = preg_replace("/$hamza/u", "-", $content);
-	// ta marbuta at end of word sequence
-	$content = preg_replace("/$ta_marbuta$end_of_string/u", "h", $content);
-	$content = preg_replace("/$ta_marbuta/u", "t", $content);
+	$content = arabic_transliteration_replace($hamza, "-", $content);
+	$content = arabic_transliteration_replace($ta_marbuta, "t", $content);
 	
 	/* Cleanup */
 	
-	$content = preg_replace("/[\x{0590}-\x{06ff}]/u", "", $content);
+	$content = preg_replace("/[\x{0590}-\x{06FF}]/u", "", $content);
 	
 	return $content;
 }
 
 function arabic_transliteration_convert_to_utf8($unicode , $encoding = 'UTF-8'){
   return mb_convert_encoding("&#{$unicode};", $encoding, 'HTML-ENTITIES');
+}
+
+function arabic_transliteration_replace($pattern, $replace, $subject){
+  //if(strpos($replace, "\x") !== FALSE){
+    $replace = preg_replace_callback("/\\\\x\{([0-9A-F]{4})\}/", function($matches){
+      return arabic_transliteration_convert_to_utf8(hexdec($matches[1]));
+    }, $replace);
+  //}
+  
+  return preg_replace("/$pattern/u", $replace, $subject);
 }
