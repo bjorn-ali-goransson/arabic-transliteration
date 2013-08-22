@@ -1,4 +1,6 @@
 <?php
+  
+require dirname(__FILE__) . '/constants.php';
 
 function arabic_transliteration($content, $options = array()) {
   $default_options = array(
@@ -11,71 +13,90 @@ function arabic_transliteration($content, $options = array()) {
     }
   }
 
-  $end_of_string = "$";
-  
-  $alef = "\x{0627}";
-  $ba = "\x{0628}";
-  $ta = "\x{062A}";
-  $tha = "\x{062B}";
-  $jim = "\x{062C}";
-  $hha = "\x{062D}";
-  $kha = "\x{062E}";
-  $dal = "\x{062F}";
-  $dhal = "\x{0630}";
-  $ra = "\x{0631}";
-  $zay = "\x{0632}";
-  $sin = "\x{0633}";
-  $shin = "\x{0634}";
-  $sad = "\x{0635}";
-  $dad = "\x{0636}";
-  $tta = "\x{0637}";
-  $zza = "\x{0638}";
-  $ayn = "\x{0639}";
-  $ghayn = "\x{063A}";
-  $fa = "\x{0641}";
-  $qaf = "\x{0642}";
-  $kaf = "\x{0643}";
-  $lam = "\x{0644}";
-  $mim = "\x{0645}";
-  $nun = "\x{0646}";
-  $ha = "\x{0647}";
-  $waw = "\x{0648}";
-  $ya = "\x{064A}";
-  
-  $sun_letters = "$ta$tha$dal$dhal$ra$zay$sin$shin$sad$dad$tta$zza$lam$nun";
-  $moon_letters = "$ba$jim$hha$kha$ayn$ghayn$fa$qaf$kaf$mim$ha$waw$ya";
-  
-  $alef_with_wasla = "\x{0671}";
-  $alef_with_sup_hamza = "\x{0623}";
-  $alef_with_sub_hamza = "\x{0625}";
-  $alef_maqsura = "\x{0649}";
-  $alef_with_madda = "\x{0622}";
-  $ta_marbuta = "\x{0629}";
-  $waw_with_hamza = "\x{0624}";
-  $ya_with_hamza = "\x{0626}";
-  $hamza = "\x{0621}";
-
-  $extraneous_letters = "$alef_with_wasla$alef_with_sup_hamza$alef_with_sub_hamza$alef_maqsura$alef_with_madda$ta_marbuta$waw_with_hamza$ya_with_hamza$hamza";
-
-  $fatha = "\x{064E}";
-  $damma = "\x{064F}";
-  $kasra = "\x{0650}";
-  $standard_harakat = "$fatha$damma$kasra";
-  $sukun = "\x{0652}";
-  
-  $fathatan = "\x{064B}";
-  $dammatan = "\x{064C}";
-  $kasratan = "\x{064D}";
-  $tanween = "$fathatan$dammatan$kasratan";
+  $content = arabic_transliteration_transform($content, $options);
+  $content = arabic_transliteration_translate($content, $options);
 	
-  $shadda = "\x{0651}";
-  $tashkil = "$standard_harakat$sukun$tanween$shadda";
+	/* Cleanup */
+	
+	$content = preg_replace("/[\x{0590}-\x{06FF}]/u", "", $content);
+	
+	return $content;
+}
 
-  $dagger_alef = "\x{0670}";
+function arabic_transliteration_translate($content, $options){
+  global $arabic_transliteration_constants;
+  extract($arabic_transliteration_constants);
 
+  $translation = array(
+	  // alef with fathatan
+    "$fathatan$alef" => $fathatan,
+    "$alef$fathatan" => $fathatan,
 
+	  // tanween
+    $fathatan => 'an',
+    $kasratan => 'in',
+    $dammatan => 'un',
 
-  /* TRANSFORMATION PHASE */
+    // consonants
+    $alef => 'ā',
+    $ba => 'b',
+    $ta => 't',
+    $tha => 'th',
+    $jim => 'j',
+    $hha => 'ḥ',
+    $kha => 'kh',
+    $dal => 'd',
+    $dhal => 'dh',
+    $ra => 'r',
+    $zay => 'z',
+    $sin => 's',
+    $shin => 'sh',
+    $sad => 'ṣ',
+    $dad => 'ḍ',
+    $tta => 'ṭ',
+    $zza => 'ẓ',
+    $ayn => 'ʿ',
+    $ghayn => 'gh',
+    $fa => 'f',
+    $qaf => 'q',
+    $kaf => 'k',
+    $lam => 'l',
+    $mim => 'm',
+    $nun => 'n',
+    $ha => 'h',
+	
+    $hamza => '-',
+    $ta_marbuta => 't',
+
+    // waw
+    "$damma$waw$fatha" => "{$damma}w$fatha",
+    "$damma$waw$alef" => "{$damma}w$alef",
+    "$damma$waw" => "ū",
+    $waw => 'w',
+
+    // ya
+    "$kasra$ya$fatha" => "{$kasra}y$fatha",
+    "$kasra$ya$alef" => "{$kasra}y$alef",
+    "$kasra$ya" => "ī",
+    $ya => 'y',
+
+    // vowels
+    $alef => 'ā',
+
+    // harakat
+    $fatha => 'a',
+    $kasra => 'i',
+    $damma => 'u',
+  );
+
+  $content = str_replace(array_keys($translation), array_values($translation), $content);
+
+  return $content;
+}
+
+function arabic_transliteration_transform($content, $options){
+  global $arabic_transliteration_constants;
+  extract($arabic_transliteration_constants);
   
   // whitespace
 	$content = strip_tags($content);
@@ -191,73 +212,7 @@ function arabic_transliteration($content, $options = array()) {
   //shadda of two-letter transliterated letters
   $content = arabic_transliteration_replace("($tha|$kha|$dhal|$shin|$ghayn)$sukun\\1", "\\1$sukun-\\1", $content);
 
-
-
-  /* TRANSLATION PHASE */
-
-  // Harakat
-
-  $translation = array(
-	  // alef with fathatan
-    "$fathatan$alef" => $fathatan,
-    "$alef$fathatan" => $fathatan,
-
-	  // tanween
-    $fathatan => 'an',
-    $kasratan => 'in',
-    $dammatan => 'un',
-  );
-
-  $content = str_replace(array_keys($translation), array_values($translation), $content);
-	
-	// long/short u
-	$content = arabic_transliteration_replace("$damma$waw([^$fatha$alef])", "ū\$1", $content);
-	$content = arabic_transliteration_replace("$damma", "u", $content);
-	// long/short i
-	$content = arabic_transliteration_replace("$kasra$ya([^$fatha$alef])", "ī\$1", $content);
-	$content = arabic_transliteration_replace("$kasra", "i", $content);
-	// long/short a
-	$content = arabic_transliteration_replace("$fatha$alef", "ā", $content);
-	$content = arabic_transliteration_replace("$fatha", "a", $content);
-	
-	/* Letters */
-	$content = arabic_transliteration_replace($alef, "ā", $content);
-	$content = arabic_transliteration_replace($ba, "b", $content);
-	$content = arabic_transliteration_replace($ta, "t", $content);
-	$content = arabic_transliteration_replace($tha, "th", $content);
-	$content = arabic_transliteration_replace($jim, "j", $content);
-	$content = arabic_transliteration_replace($hha, "ḥ", $content);
-	$content = arabic_transliteration_replace($kha, "kh", $content);
-	$content = arabic_transliteration_replace($dal, "d", $content);
-	$content = arabic_transliteration_replace($dhal, "dh", $content);
-	$content = arabic_transliteration_replace($ra, "r", $content);
-	$content = arabic_transliteration_replace($zay, "z", $content);
-	$content = arabic_transliteration_replace($sin, "s", $content);
-	$content = arabic_transliteration_replace($shin, "sh", $content);
-	$content = arabic_transliteration_replace($sad, "ṣ", $content);
-	$content = arabic_transliteration_replace($dad, "ḍ", $content);
-	$content = arabic_transliteration_replace($tta, "ṭ", $content);
-	$content = arabic_transliteration_replace($zza, "ẓ", $content);
-	$content = arabic_transliteration_replace($ayn, "ʿ", $content);
-	$content = arabic_transliteration_replace($ghayn, "gh", $content);
-	$content = arabic_transliteration_replace($fa, "f", $content);
-	$content = arabic_transliteration_replace($qaf, "q", $content);
-	$content = arabic_transliteration_replace($kaf, "k", $content);
-	$content = arabic_transliteration_replace($lam, "l", $content);
-	$content = arabic_transliteration_replace($mim, "m", $content);
-	$content = arabic_transliteration_replace($nun, "n", $content);
-	$content = arabic_transliteration_replace($ha, "h", $content);
-	$content = arabic_transliteration_replace($waw, "w", $content);
-	$content = arabic_transliteration_replace($ya, "y", $content);
-	
-	$content = arabic_transliteration_replace($hamza, "-", $content);
-	$content = arabic_transliteration_replace($ta_marbuta, "t", $content);
-	
-	/* Cleanup */
-	
-	$content = preg_replace("/[\x{0590}-\x{06FF}]/u", "", $content);
-	
-	return $content;
+  return $content;
 }
 
 function arabic_transliteration_convert_to_utf8($unicode , $encoding = 'UTF-8'){
@@ -265,11 +220,5 @@ function arabic_transliteration_convert_to_utf8($unicode , $encoding = 'UTF-8'){
 }
 
 function arabic_transliteration_replace($pattern, $replace, $subject){
-  //if(strpos($replace, "\x") !== FALSE){
-    $replace = preg_replace_callback("/\\\\x\{([0-9A-F]{4})\}/", function($matches){
-      return arabic_transliteration_convert_to_utf8(hexdec($matches[1]));
-    }, $replace);
-  //}
-  
   return preg_replace("/$pattern/u", $replace, $subject);
 }
