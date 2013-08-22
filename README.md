@@ -1,7 +1,7 @@
 PHP-arabic-transliteration
 ==========================
 
-This function takes an arabic string like نَعْبُدُ and returns a latinized transliteration like 'na`bud' (somewhat resembling the ALA-LC standard).
+This function takes an arabic string like نَعْبُدُ and returns a latinized transliteration like 'naʿbud' (somewhat resembling the ALA-LC standard).
 
 Usage: include transliteration.php and call:
 
