@@ -143,22 +143,22 @@ class TestOfLogging extends UnitTestCase {
       /* ALLATEE */
 
       // without waw or fa
-      'الَّتِي' => 'alladhī',
-      $ba . 'الَّتِي' => 'billadhī',
-      $kaf . 'الَّتِي' => 'kalladhī',
-      $ta . 'الَّتِي' => 'talladhī',
+      'الَّتِي' => 'allatī',
+      $ba . 'الَّتِي' => 'billatī',
+      $kaf . 'الَّتِي' => 'kallatī',
+      $ta . 'الَّتِي' => 'tallatī',
       
       // with waw
-      $waw . 'الَّتِي' => 'walladhī',
-      $waw . $ba . 'الَّتِي' => 'wabilladhī',
-      $waw . $kaf . 'الَّتِي' => 'wakalladhī',
-      $waw . $ta . 'الَّتِي' => 'watalladhī',
+      $waw . 'الَّتِي' => 'wallatī',
+      $waw . $ba . 'الَّتِي' => 'wabillatī',
+      $waw . $kaf . 'الَّتِي' => 'wakallatī',
+      $waw . $ta . 'الَّتِي' => 'watallatī',
 
       // with fa
-      $fa . 'الَّتِي' => 'falladhī',
-      $fa . $ba . 'الَّتِي' => 'fabilladhī',
-      $fa . $kaf . 'الَّتِي' => 'fakalladhī',
-      $fa . $ta . 'الَّتِي' => 'fatalladhī',
+      $fa . 'الَّتِي' => 'fallatī',
+      $fa . $ba . 'الَّتِي' => 'fabillatī',
+      $fa . $kaf . 'الَّتِي' => 'fakallatī',
+      $fa . $ta . 'الَّتِي' => 'fatallatī',
     );
     foreach($test as $arabic => $transliterated){
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
