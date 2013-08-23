@@ -110,4 +110,15 @@ class TestOfLogging extends UnitTestCase {
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
     }
   }
+  function testSentencesStopOnSukun() {
+    $test = array(
+      'إِذَا رَأَيْتَنِي قَدْ فَتَحْتُ فَمِي بِالحَرْفِ فَانْقُطْ نُقْطَةً فَوْقَهُ عَلَى أَعْلَاهُ' => 'idhā ra\'aytanī qad fatahtu famī bil-harf fanquṭ nuqṭatan fawqahu ʿalā aʿlāh',
+      'فَإِنْ ضَمَمْتُ فَمِي فَانْقُطْ نُقْطَةً بَيْنَ يَدَيِ ٱلحَرْفِ' => 'fa\'in ḍamamtu famī fanquṭ nuqṭatan bayna yadayi l-harf',
+      'وَإِنْ كَسَرْتُ فَاجْعَلْ ٱلنُّقْطَةَ تَحْتَ ٱلحَرْفِ' => 'wa\'in kasartu fajʿali n-nuqṭata tahta l-harf',
+      'فَإِنْ أَتْبَعْتُ شَيْئاً مِنْ ذَلِكَ غُنَّةً فَاجْعَلْ مَكَانَ ٱلنُّقْطَةِ نُقْطَتَيْنِ' => 'fa\'in atbaʿtu shay\'an min dhālika ghunnatan fajʿal makāna n-nuqṭati nuqṭatayn',
+    );
+    foreach($test as $arabic => $transliterated){
+      $this->assertEqual(arabic_transliteration($arabic), $transliterated);
+    }
+  }
 }
