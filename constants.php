@@ -63,6 +63,14 @@ foreach($arabic_transliteration_constants as $name => $value){
   $arabic_transliteration_constants[$name] = arabic_transliteration_convert_to_utf8($value);
 }
 
+$arabic_transliteration_constants['hamzas'] = 
+  $arabic_transliteration_constants['alef_with_sup_hamza'] .
+  $arabic_transliteration_constants['alef_with_sub_hamza'] .
+  $arabic_transliteration_constants['alef_with_madda'] .
+  $arabic_transliteration_constants['waw_with_hamza'] .
+  $arabic_transliteration_constants['ya_with_hamza'] .
+  $arabic_transliteration_constants['hamza'];
+
 $arabic_transliteration_constants['sun_letters'] = 
   $arabic_transliteration_constants['ta'] .
   $arabic_transliteration_constants['tha'] .
