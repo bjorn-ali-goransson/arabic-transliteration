@@ -114,6 +114,15 @@ class TestOfLogging extends UnitTestCase {
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
     }
   }
+  function testAntiWithStopOnSukun() {
+    $test = array(
+      'أَنْتِ' => 'anti',
+      'مَنْ أَنْتِ' => 'man anti',
+    );
+    foreach($test as $arabic => $transliterated){
+      $this->assertEqual(arabic_transliteration($arabic), $transliterated);
+    }
+  }
   function testAlladheeWithPrefixedParticles() {
     $ba = 'بِ';
     $kaf = 'كَ';
