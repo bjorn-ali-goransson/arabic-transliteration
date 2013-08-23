@@ -88,6 +88,7 @@ $arabic_transliteration_constants['sun_letters'] =
   $arabic_transliteration_constants['nun'];
   
 $arabic_transliteration_constants['moon_letters'] = 
+  $arabic_transliteration_constants['hamzas'] .
   $arabic_transliteration_constants['ba'] .
   $arabic_transliteration_constants['jim'] .
   $arabic_transliteration_constants['hha'] .
