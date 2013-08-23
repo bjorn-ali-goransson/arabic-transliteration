@@ -104,8 +104,34 @@ $arabic_transliteration_constants['moon_letters'] =
   $arabic_transliteration_constants['ya'];
 
 $arabic_transliteration_constants['standard_letters'] = 
-  $arabic_transliteration_constants['sun_letters'] .
-  $arabic_transliteration_constants['moon_letters'];
+  $arabic_transliteration_constants['hamzas'] .
+  $arabic_transliteration_constants['ba'] .
+  $arabic_transliteration_constants['ta'] .
+  $arabic_transliteration_constants['tha'] .
+  $arabic_transliteration_constants['jim'] .
+  $arabic_transliteration_constants['hha'] .
+  $arabic_transliteration_constants['kha'] .
+  $arabic_transliteration_constants['dal'] .
+  $arabic_transliteration_constants['dhal'] .
+  $arabic_transliteration_constants['ra'] .
+  $arabic_transliteration_constants['zay'] .
+  $arabic_transliteration_constants['sin'] .
+  $arabic_transliteration_constants['shin'] .
+  $arabic_transliteration_constants['sad'] .
+  $arabic_transliteration_constants['dad'] .
+  $arabic_transliteration_constants['tta'] .
+  $arabic_transliteration_constants['zza'] .
+  $arabic_transliteration_constants['ayn'] .
+  $arabic_transliteration_constants['ghayn'] .
+  $arabic_transliteration_constants['fa'] .
+  $arabic_transliteration_constants['qaf'] .
+  $arabic_transliteration_constants['kaf'] .
+  $arabic_transliteration_constants['lam'] .
+  $arabic_transliteration_constants['mim'] .
+  $arabic_transliteration_constants['nun'] .
+  $arabic_transliteration_constants['ha'] .
+  $arabic_transliteration_constants['waw'] .
+  $arabic_transliteration_constants['ya'];
   
 $arabic_transliteration_constants['extraneous_letters'] = 
   $arabic_transliteration_constants['alef_with_wasla'] .
