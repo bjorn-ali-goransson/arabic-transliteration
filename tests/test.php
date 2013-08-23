@@ -110,6 +110,60 @@ class TestOfLogging extends UnitTestCase {
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
     }
   }
+  function testAlladheeWithPrefixedParticles() {
+    $ba = 'بِ';
+    $kaf = 'كَ';
+    $ta = 'تَ';
+    $waw = 'وَ';
+    $fa = 'فَ';
+
+    $test = array(
+      /* ALLADHEE */
+
+      // without waw or fa
+      'الَّذِي' => 'alladhī',
+      $ba . 'الَّذِي' => 'billadhī',
+      $kaf . 'الَّذِي' => 'kalladhī',
+      $ta . 'الَّذِي' => 'talladhī',
+      
+      // with waw
+      $waw . 'الَّذِي' => 'walladhī',
+      $waw . $ba . 'الَّذِي' => 'wabilladhī',
+      $waw . $kaf . 'الَّذِي' => 'wakalladhī',
+      $waw . $ta . 'الَّذِي' => 'watalladhī',
+
+      // with fa
+      $fa . 'الَّذِي' => 'falladhī',
+      $fa . $ba . 'الَّذِي' => 'fabilladhī',
+      $fa . $kaf . 'الَّذِي' => 'fakalladhī',
+      $fa . $ta . 'الَّذِي' => 'fatalladhī',
+
+
+
+      /* ALLATEE */
+
+      // without waw or fa
+      'الَّتِي' => 'alladhī',
+      $ba . 'الَّتِي' => 'billadhī',
+      $kaf . 'الَّتِي' => 'kalladhī',
+      $ta . 'الَّتِي' => 'talladhī',
+      
+      // with waw
+      $waw . 'الَّتِي' => 'walladhī',
+      $waw . $ba . 'الَّتِي' => 'wabilladhī',
+      $waw . $kaf . 'الَّتِي' => 'wakalladhī',
+      $waw . $ta . 'الَّتِي' => 'watalladhī',
+
+      // with fa
+      $fa . 'الَّتِي' => 'falladhī',
+      $fa . $ba . 'الَّتِي' => 'fabilladhī',
+      $fa . $kaf . 'الَّتِي' => 'fakalladhī',
+      $fa . $ta . 'الَّتِي' => 'fatalladhī',
+    );
+    foreach($test as $arabic => $transliterated){
+      $this->assertEqual(arabic_transliteration($arabic), $transliterated);
+    }
+  }
   function testSentencesStopOnSukun() {
     $test = array(
       'إِذَا رَأَيْتَنِي قَدْ فَتَحْتُ فَمِي بِالحَرْفِ فَانْقُطْ نُقْطَةً فَوْقَهُ عَلَى أَعْلَاهُ' => 'idhā ra\'aytanī qad fatahtu famī bil-harf fanquṭ nuqṭatan fawqahu ʿalā aʿlāh',
