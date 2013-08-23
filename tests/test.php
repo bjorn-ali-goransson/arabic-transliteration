@@ -76,6 +76,7 @@ class TestOfLogging extends UnitTestCase {
   }
   function testWordsStopOnSukun() {
     $test = array(
+      // al-fatiha
       'بِسْمِ' => 'bism',
       'اللَّهِ' => 'allāh',
       'الرَّحْمَنِ' => 'ar-raḥmān',
@@ -105,6 +106,9 @@ class TestOfLogging extends UnitTestCase {
       'عَلَيْهِمْ' => 'ʿalayhim',
       'وَلا' => 'walā',
       'الضَّالِّينَ' => 'aḍ-ḍāllīn',
+
+      // some special words
+      'اللُّغَةُ' => 'al-lughah',
     );
     foreach($test as $arabic => $transliterated){
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
