@@ -109,6 +109,8 @@ class TestOfLogging extends UnitTestCase {
 
       // some special words
       'اللُّغَةُ' => 'al-lughah',
+      'اللَّه' => 'allāh',
+      'اقْرَأْ' => 'iqra\'',
     );
     foreach($test as $arabic => $transliterated){
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
@@ -118,6 +120,20 @@ class TestOfLogging extends UnitTestCase {
     $test = array(
       'أَنْتِ' => 'anti',
       'مَنْ أَنْتِ' => 'man anti',
+    );
+    foreach($test as $arabic => $transliterated){
+      $this->assertEqual(arabic_transliteration($arabic), $transliterated);
+    }
+  }
+  function testFatihaWithStopOnSukun() {
+    $test = array(
+      'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ' => 'bismi llāhi r-raḥmāni r-raḥīm',
+      'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ' => 'al-ḥamdu lillāhi rabbi l-ʿālamīn',
+      'الرَّحْمَنِ الرَّحِيمِ' => 'ar-raḥmāni r-raḥīm',
+      'مَالِكِ يَوْمِ الدِّينِ' => 'māliki yawmi d-dīn',
+      'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ' => 'iyyāka naʿbudu wa\'iyyāka nastaʿīn',
+      'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ' => 'ihdina ṣ-ṣirāṭa l-mustaqīm',
+      'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلا الضَّالِّينَ' => 'ṣirāṭa lladhīna anʿamta ʿalayhim ghayri l-maghḍūbi ʿalayhim wala ḍ-ḍāllīn',
     );
     foreach($test as $arabic => $transliterated){
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
@@ -179,9 +195,9 @@ class TestOfLogging extends UnitTestCase {
   }
   function testSentencesStopOnSukun() {
     $test = array(
-      'إِذَا رَأَيْتَنِي قَدْ فَتَحْتُ فَمِي بِالحَرْفِ فَانْقُطْ نُقْطَةً فَوْقَهُ عَلَى أَعْلَاهُ' => 'idhā ra\'aytanī qad fatahtu famī bil-harf fanquṭ nuqṭatan fawqahu ʿalā aʿlāh',
-      'فَإِنْ ضَمَمْتُ فَمِي فَانْقُطْ نُقْطَةً بَيْنَ يَدَيِ ٱلحَرْفِ' => 'fa\'in ḍamamtu famī fanquṭ nuqṭatan bayna yadayi l-harf',
-      'وَإِنْ كَسَرْتُ فَاجْعَلْ ٱلنُّقْطَةَ تَحْتَ ٱلحَرْفِ' => 'wa\'in kasartu fajʿali n-nuqṭata tahta l-harf',
+      'إِذَا رَأَيْتَنِي قَدْ فَتَحْتُ فَمِي بِالحَرْفِ فَانْقُطْ نُقْطَةً فَوْقَهُ عَلَى أَعْلَاهُ' => 'idhā ra\'aytanī qad fataḥtu famī bil-ḥarfi fanquṭ nuqṭatan fawqahu ʿalā aʿlāh',
+      'فَإِنْ ضَمَمْتُ فَمِي فَانْقُطْ نُقْطَةً بَيْنَ يَدَيِ ٱلحَرْفِ' => 'fa\'in ḍamamtu famī fanquṭ nuqṭatan bayna yadayi l-ḥarf',
+      'وَإِنْ كَسَرْتُ فَاجْعَلْ ٱلنُّقْطَةَ تَحْتَ ٱلحَرْفِ' => 'wa\'in kasartu fajʿali n-nuqṭata taḥta l-ḥarf',
       'فَإِنْ أَتْبَعْتُ شَيْئاً مِنْ ذَلِكَ غُنَّةً فَاجْعَلْ مَكَانَ ٱلنُّقْطَةِ نُقْطَتَيْنِ' => 'fa\'in atbaʿtu shay\'an min dhālika ghunnatan fajʿal makāna n-nuqṭati nuqṭatayn',
     );
     foreach($test as $arabic => $transliterated){
