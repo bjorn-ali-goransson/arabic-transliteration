@@ -92,7 +92,7 @@ class TestOfLogging extends UnitTestCase {
       'إِيَّاكَ' => 'iyyāk',
       'نَعْبُدُ' => 'naʿbud',
       'وَإِيَّاكَ' => 'wa\'iyyāk',
-      'نَسْتَعِينُ' => 'nasta`īn',
+      'نَسْتَعِينُ' => 'nastaʿīn',
       'اهْدِنَا' => 'ihdinā',
       'الصِّرَاطَ' => 'aṣ-ṣirāṭ',
       'الْمُسْتَقِيمَ' => 'al-mustaqīm',
