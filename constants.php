@@ -134,6 +134,22 @@ $arabic_transliteration_constants['tashkil'] =
   $arabic_transliteration_constants['tanween'] .
   $arabic_transliteration_constants['shadda'];
 
+$arabic_transliteration_constants['non_transforming_prefixed_particles'] = 
+  $arabic_transliteration_constants['ba'] . $arabic_transliteration_constants['kasra'] . '|' .
+  $arabic_transliteration_constants['waw'] . $arabic_transliteration_constants['fatha'] . $arabic_transliteration_constants['ba'] . $arabic_transliteration_constants['kasra'] . '|' .
+  $arabic_transliteration_constants['fa'] . $arabic_transliteration_constants['fatha'] . $arabic_transliteration_constants['ba'] . $arabic_transliteration_constants['kasra'] . '|' .
+  
+  $arabic_transliteration_constants['kaf'] . $arabic_transliteration_constants['fatha'] . '|' .
+  $arabic_transliteration_constants['waw'] . $arabic_transliteration_constants['fatha'] . $arabic_transliteration_constants['kaf'] . $arabic_transliteration_constants['fatha'] . '|' .
+  $arabic_transliteration_constants['fa'] . $arabic_transliteration_constants['fatha'] . $arabic_transliteration_constants['kaf'] . $arabic_transliteration_constants['fatha'] . '|' .
+  
+  $arabic_transliteration_constants['ta'] . $arabic_transliteration_constants['fatha'] . '|' .
+  $arabic_transliteration_constants['waw'] . $arabic_transliteration_constants['fatha'] . $arabic_transliteration_constants['ta'] . $arabic_transliteration_constants['fatha'] . '|' .
+  $arabic_transliteration_constants['fa'] . $arabic_transliteration_constants['fatha'] . $arabic_transliteration_constants['ta'] . $arabic_transliteration_constants['fatha'] . '|' .
+  
+  $arabic_transliteration_constants['waw'] . $arabic_transliteration_constants['fatha'] . '|' .
+  $arabic_transliteration_constants['fa'] . $arabic_transliteration_constants['fatha'];
+
 function arabic_transliteration_convert_to_utf8($unicode , $encoding = 'UTF-8'){
   return mb_convert_encoding("&#{$unicode};", $encoding, 'HTML-ENTITIES');
 }
