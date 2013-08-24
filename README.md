@@ -28,7 +28,8 @@ These tests currently pass:
 'فَإِنْ أَتْبَعْتُ شَيْئاً مِنْ ذَلِكَ غُنَّةً فَاجْعَلْ مَكَانَ ٱلنُّقْطَةِ نُقْطَتَيْنِ' => 'fa\'in atbaʿtu shay\'an min dhālika ghunnatan fajʿal makāna n-nuqṭati nuqṭatayn',
 ```
 
-==Todo==
+Todo
+----
 
 * More tests
 * Pattern recognition to know when alef with wasla and lam are part of a verb, and thus should have kasra or damma (as opposed to fatha when alef lam is the definitive article)
