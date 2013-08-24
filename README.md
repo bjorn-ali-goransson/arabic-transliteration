@@ -14,7 +14,7 @@ $str = arabic_transliteration('بِسْمِ اللَّهِ الرَّحْمَن�
 To wrap all arabic text in ```&lt;span&gt;```s having the transliterated content as tooltip, use the following code (hint: 0600-06ff is the arabic unicode codepage):
 
 ```
-$str = preg_replace_callback("/([\x{0600}-\x{06ff}]([\s,.]+[\x{0600}-\x{06ff}]+)*)+/u", function($matches){
+$str = preg_replace_callback("/([\x{0600}-\x{06ff}](?:[\s,.]+[\x{0600}-\x{06ff}]+)*)+/u", function($matches){
   return "<span class=\"arabic\" title=\"" . transliterate_to_arabic($matches[1], array('stop-on-sukun' => 1)) . "\">{$matches[0]}</span>";
 }, $content);
 ```
