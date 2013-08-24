@@ -3,7 +3,7 @@ Arabic Transliteration in PHP
 
 This function takes an arabic string like نَعْبُدُ and returns a latinized transliteration like /naʿbud/ (somewhat resembling the ALA-LC standard).
 
-Usage: include arabic_transliteration.php and call:
+Usage: require arabic_transliteration.php and call:
 
 ```
 $options = array('stop-on-sukun' => 1);
