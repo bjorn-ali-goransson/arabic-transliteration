@@ -55,8 +55,10 @@ $arabic_transliteration_constants = array(
 	
   // other tashkil
   'shadda' => 0x0651,
-
+  
+  // other
   'dagger_alef' => 0x0670,
+  'tatwil' => 0x0640,
 );
 
 foreach($arabic_transliteration_constants as $name => $value){

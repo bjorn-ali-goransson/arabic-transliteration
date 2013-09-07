@@ -115,7 +115,7 @@ function arabic_transliteration_transform($content, $options){
 	/* SPECIAL LETTERS */
 
 	// tatwil
-	$content = arabic_transliteration_replace("ـ", "", $content); // todo: add to constants
+	$content = arabic_transliteration_replace("$tatwil", "", $content); // todo: add to constants
 
 	// alif maqsura
 	$content = arabic_transliteration_replace("$alef_maqsura", "$alef", $content);
