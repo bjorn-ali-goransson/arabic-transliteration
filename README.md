@@ -41,3 +41,4 @@ Todo
 
 * More tests
 * Pattern recognition to know when alef with wasla and lam are part of a verb, and thus should have kasra or damma (as opposed to fatha when alef lam is the definitive article)
+* Alef on a verb ending with Waw ul-Jam` should not be transliterated
