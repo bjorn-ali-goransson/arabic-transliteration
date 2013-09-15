@@ -108,7 +108,7 @@ class TestOfLogging extends UnitTestCase {
       'الضَّالِّينَ' => 'aḍ-ḍāllīn',
 
       // some special words
-      'اللُّغَةُ' => 'al-lughah',
+      'اللُّغَةُ' => 'al-lugha',
       'اللَّه' => 'allāh',
       'اقْرَأْ' => 'iqra\'',
     );

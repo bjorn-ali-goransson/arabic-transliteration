@@ -5,6 +5,7 @@ require dirname(__FILE__) . '/constants.php';
 function arabic_transliteration($content, $options = array()) {
   $default_options = array(
     'stop-on-sukun' => 1,
+    'ta-marbuta-becomes-ha' => 0,
   );
   
   foreach($default_options as $key => $default_value){
@@ -152,8 +153,12 @@ function arabic_transliteration_transform($content, $options){
 	$content = arabic_transliteration_replace("$alef_with_madda", "$alef", $content);
 
 	// ta marbuta at end of word sequence
-	$content = arabic_transliteration_replace("$ta_marbuta([$tashkil]*)$", "$ha\\1", $content);
-	
+  if($options['ta-marbuta-becomes-ha'] == 1){
+    $content = arabic_transliteration_replace("$ta_marbuta([$tashkil]*)$", "$ha\\1", $content);
+  } else {
+    $content = arabic_transliteration_replace("$ta_marbuta([$tashkil]*)$", "\\1", $content);
+	}
+  
 	// question mark
 	$content = arabic_transliteration_replace("؟", "?", $content);
 	

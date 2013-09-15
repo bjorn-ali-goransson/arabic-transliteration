@@ -36,6 +36,12 @@ These tests currently pass:
 'فَإِنْ أَتْبَعْتُ شَيْئاً مِنْ ذَلِكَ غُنَّةً فَاجْعَلْ مَكَانَ ٱلنُّقْطَةِ نُقْطَتَيْنِ' => 'fa\'in atbaʿtu shay\'an min dhālika ghunnatan fajʿal makāna n-nuqṭati nuqṭatayn',
 ```
 
+Options
+-------
+
+```stop-on-sukun``` (```1``` or ```0```) - Stops on Sukun if 1.
+```ta-marbuta-becomes-ha``` (```1``` or ```0```) - Ta Marbuta is transliterated as Ha if stopped on Sukun
+
 Todo
 ----
 
