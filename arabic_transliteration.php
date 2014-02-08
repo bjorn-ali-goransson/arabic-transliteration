@@ -54,6 +54,11 @@ function arabic_transliteration_transform($content, $options){
   $content = arabic_transliteration_replace("(^| )($non_transforming_prefixed_particles)?$alef([$standard_letters_without_lam])$sukun([$standard_letters_without_lam][$fatha$kasra])", "\\1\\2$alef_with_wasla$kasra\\3$sukun\\4", $content);
   $content = arabic_transliteration_replace("(^| )($non_transforming_prefixed_particles)?$alef([$standard_letters_without_lam])$sukun([$standard_letters_without_lam][$damma])", "\\1\\2$alef_with_wasla$damma\\3$sukun\\4", $content);
   $content = arabic_transliteration_replace("(^| )($non_transforming_prefixed_particles)?$alef([$standard_letters])$sukun", "\\1\\2$alef_with_wasla\\3$sukun", $content);
+  
+  // alef with wasla
+  $content = arabic_transliteration_replace("(^| )($non_transforming_prefixed_particles)?$alef_with_wasla([$standard_letters_without_lam])$sukun([$standard_letters_without_lam][$fatha$kasra])", "\\1\\2$alef_with_wasla$kasra\\3$sukun\\4", $content);
+  $content = arabic_transliteration_replace("(^| )($non_transforming_prefixed_particles)?$alef_with_wasla([$standard_letters_without_lam])$sukun([$standard_letters_without_lam][$damma])", "\\1\\2$alef_with_wasla$damma\\3$sukun\\4", $content);
+  
   // TODO: fi`l amr with lam
   
   // unmarked alef with wasla indicated by no sign on next letter, shadda on 2nd next letter

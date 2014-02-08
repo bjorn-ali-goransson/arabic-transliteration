@@ -1,6 +1,7 @@
 <?php
+
 require dirname(__FILE__) . '/simpletest/autorun.php';
-require '../transliteration.php';
+require '../arabic_transliteration.php';
 
 SimpleTest::prefer(new HtmlReporter('utf-8'));
 
@@ -199,6 +200,14 @@ class TestOfLogging extends UnitTestCase {
       'فَإِنْ ضَمَمْتُ فَمِي فَانْقُطْ نُقْطَةً بَيْنَ يَدَيِ ٱلحَرْفِ' => 'fa\'in ḍamamtu famī fanquṭ nuqṭatan bayna yadayi l-ḥarf',
       'وَإِنْ كَسَرْتُ فَاجْعَلْ ٱلنُّقْطَةَ تَحْتَ ٱلحَرْفِ' => 'wa\'in kasartu fajʿali n-nuqṭata taḥta l-ḥarf',
       'فَإِنْ أَتْبَعْتُ شَيْئاً مِنْ ذَلِكَ غُنَّةً فَاجْعَلْ مَكَانَ ٱلنُّقْطَةِ نُقْطَتَيْنِ' => 'fa\'in atbaʿtu shay\'an min dhālika ghunnatan fajʿal makāna n-nuqṭati nuqṭatayn',
+    );
+    foreach($test as $arabic => $transliterated){
+      $this->assertEqual(arabic_transliteration($arabic), $transliterated);
+    }
+  }
+  function testFilAmr() {
+    $test = array(
+      'ٱضْرِب' => 'iḍrib'
     );
     foreach($test as $arabic => $transliterated){
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
