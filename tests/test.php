@@ -111,6 +111,10 @@ class TestOfLogging extends UnitTestCase {
       // some special words
       'اللُّغَةُ' => 'al-lugha',
       'اللَّه' => 'allāh',
+      'ٱسْمٌ' => 'ism',
+      'ٱمْرِئٌ' => 'imri\'',
+      'ٱفْتِرَاقٌ' => 'iftirāq',
+      'ٱحْمَرَّ' => 'iḥmarr',
       'اقْرَأْ' => 'iqra\'',
     );
     foreach($test as $arabic => $transliterated){
@@ -207,7 +211,9 @@ class TestOfLogging extends UnitTestCase {
   }
   function testFilAmr() {
     $test = array(
-      'ٱضْرِب' => 'iḍrib'
+      'ٱضْرِبْ' => 'iḍrib',
+      'ٱخْرُجْ' => 'ukhruj',
+      'ٱعْلَمْ' => 'iʿlam',
     );
     foreach($test as $arabic => $transliterated){
       $this->assertEqual(arabic_transliteration($arabic), $transliterated);
